@@ -1,0 +1,34 @@
+{
+  "name": "restapi-typescript-decorators-front-end-example",
+  "version": "1.0.0",
+  "description": "![Build and Test CI](https://github.com/synle/restapi-typescript-decorators-example/workflows/Build%20and%20Test%20CI/badge.svg)",
+  "main": "webpack.config.js",
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "restapi-typescript-decorators": "^3"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.43",
+    "@types/react-dom": "^16.9.8",
+    "parcel-bundler": "^1.12.4",
+    "typescript": "^3.9.6",
+    "prettier": "^2.0.5"
+  },
+  "scripts": {
+    "start": "parcel src/index.html",
+    "dev": "parcel src/index.html",
+    "format": "./node_modules/.bin/prettier --config ./.prettierrc --write src/**/**/**/**/*.{ts,tsx,js,jsx,scss} *.{json,MD}",
+    "test": "echo \"Error: no test specified\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/synle/restapi-typescript-decorators-front-end-example.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/synle/restapi-typescript-decorators-front-end-example/issues"
+  },
+  "homepage": "https://github.com/synle/restapi-typescript-decorators-front-end-example#readme"
+}
