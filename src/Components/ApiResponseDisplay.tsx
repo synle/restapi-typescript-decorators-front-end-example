@@ -2,17 +2,20 @@ import React, { useState } from 'react';
 import { ApiResponse } from 'restapi-typescript-decorators';
 import { PublicApiDataStore } from '../Api/PublicApiDataStore';
 
+import { HttpBinResponse } from '../Api/types';
+
 const myPublicApiDataStoreInstance = new PublicApiDataStore();
 
 // method name, api method reference, params
 const testApis = [
   [
     'Do Get with QueryParams',
-    (): ApiResponse => myPublicApiDataStoreInstance.doGetWithQueryParams({ d: 4, e: 5, f: 6 }),
+    (): ApiResponse<HttpBinResponse> =>
+      myPublicApiDataStoreInstance.doGetWithQueryParams({ d: 4, e: 5, f: 6 }),
   ],
   [
     'Do Get with PathParams and RequestBody',
-    (): ApiResponse =>
+    (): ApiResponse<HttpBinResponse> =>
       myPublicApiDataStoreInstance.doGetWithPathParams('some_secure_message_id_987', {
         x: 9,
         y: 8,
@@ -21,11 +24,12 @@ const testApis = [
   ],
   [
     'Do Post with RequestBody',
-    (): ApiResponse => myPublicApiDataStoreInstance.doPostWithBody({ a: 1, b: 2, c: 3 }),
+    (): ApiResponse<HttpBinResponse> =>
+      myPublicApiDataStoreInstance.doPostWithBody({ a: 1, b: 2, c: 3 }),
   ],
   [
     'Do Post with FormData',
-    (): ApiResponse =>
+    (): ApiResponse<HttpBinResponse> =>
       myPublicApiDataStoreInstance.doPostWithFormData(
         100, // qty
         456, // unit price
@@ -89,27 +93,32 @@ function DoUploadFileAsFormDataApiTesterButton(props) {
     const newApiMetaData = { apiName: 'doPostUploadFile', loading: true };
     setCurrentApiMetaData(newApiMetaData);
 
-    const fileToBeUploaded = document.querySelector('#fileToUploadAsFormData').files[0]; // this example only upload one file
+    // this example only upload one file
+    const fileUploadDom = document.querySelector('#fileToUploadAsFormData') as HTMLInputElement;
+    if (fileUploadDom && fileUploadDom.files) {
+      const fileToBeUploaded = fileUploadDom.files[0];
 
-    // do callback and set the value
-    const apiResponse = myPublicApiDataStoreInstance.doPostUploadFile(fileToBeUploaded);
-    apiResponse.result.then(
-      (resp) => {
-        setCurrentApiMetaData({
-          ...newApiMetaData,
-          apiResponse,
-          resp,
-          loading: false,
-        });
-      },
-      () => {
-        setCurrentApiMetaData({
-          ...newApiMetaData,
-          apiResponse,
-          loading: false,
-        });
-      },
-    );
+      // do callback and set the value
+      const apiResponse = myPublicApiDataStoreInstance.doPostUploadFile(fileToBeUploaded);
+      apiResponse &&
+        apiResponse.result.then(
+          (resp) => {
+            setCurrentApiMetaData({
+              ...newApiMetaData,
+              apiResponse,
+              resp,
+              loading: false,
+            });
+          },
+          () => {
+            setCurrentApiMetaData({
+              ...newApiMetaData,
+              apiResponse,
+              loading: false,
+            });
+          },
+        );
+    }
   };
 
   return (
@@ -127,30 +136,35 @@ function DoUploadFileAsStreamApiTesterButton(props) {
   const _onUploadFile = (e) => {
     e.preventDefault(); // stop form from submitting
 
-    const newApiMetaData = { apiName: 'doPostUploadFile', loading: true };
+    const newApiMetaData = { apiName: 'doPostUploadFileAsStream', loading: true };
     setCurrentApiMetaData(newApiMetaData);
 
-    const fileToBeUploaded = document.querySelector('#fileToUploadAsStream').files[0]; // this example only upload one file
+    // this example only upload one file
+    const fileUploadDom = document.querySelector('#fileToUploadAsStream') as HTMLInputElement;
+    if (fileUploadDom && fileUploadDom.files) {
+      const fileToBeUploaded = fileUploadDom.files[0];
 
-    // do callback and set the value
-    const apiResponse = myPublicApiDataStoreInstance.doPostUploadFileAsStream(fileToBeUploaded);
-    apiResponse.result.then(
-      (resp) => {
-        setCurrentApiMetaData({
-          ...newApiMetaData,
-          apiResponse,
-          resp,
-          loading: false,
-        });
-      },
-      () => {
-        setCurrentApiMetaData({
-          ...newApiMetaData,
-          apiResponse,
-          loading: false,
-        });
-      },
-    );
+      // do callback and set the value
+      const apiResponse = myPublicApiDataStoreInstance.doPostUploadFileAsStream(fileToBeUploaded)
+      apiResponse &&
+        apiResponse.result.then(
+          (resp) => {
+            setCurrentApiMetaData({
+              ...newApiMetaData,
+              apiResponse,
+              resp,
+              loading: false,
+            });
+          },
+          () => {
+            setCurrentApiMetaData({
+              ...newApiMetaData,
+              apiResponse,
+              loading: false,
+            });
+          },
+        );
+    }
   };
 
   return (
@@ -164,35 +178,40 @@ function DoUploadFileAsStreamApiTesterButton(props) {
 }
 
 export function ApiTesterSection() {
-  const [currentApiMetaData, setCurrentApiMetaData] = useState(null);
+  const [currentApiMetaData, setCurrentApiMetaData] = useState<any>(null);
 
   const _onCallAPI = (apiName, callBack) => (e) => {
     // this simply makes the currently clicked button disabled
     // to make it easier to see and disabled double click...
-    document.querySelectorAll('.btnApi').forEach((b) => (b.disabled = e.target === b));
+    document.querySelectorAll('.btnApi').forEach((b) => {
+      const btn = b as HTMLInputElement;
+      btn.disabled = e.target === btn;
+    });
 
     const newApiMetaData = { apiName, loading: true };
     setCurrentApiMetaData(newApiMetaData);
 
     // do callback and set the value
     const apiResponse = callBack();
-    apiResponse.result.then(
-      (resp) => {
-        setCurrentApiMetaData({
-          ...newApiMetaData,
-          apiResponse,
-          resp,
-          loading: false,
-        });
-      },
-      () => {
-        setCurrentApiMetaData({
-          ...newApiMetaData,
-          apiResponse,
-          loading: false,
-        });
-      },
-    );
+    if (apiResponse) {
+      apiResponse.result.then(
+        (resp) => {
+          setCurrentApiMetaData({
+            ...newApiMetaData,
+            apiResponse,
+            resp,
+            loading: false,
+          });
+        },
+        () => {
+          setCurrentApiMetaData({
+            ...newApiMetaData,
+            apiResponse,
+            loading: false,
+          });
+        },
+      );
+    }
   };
 
   return (

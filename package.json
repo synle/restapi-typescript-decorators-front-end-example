@@ -6,7 +6,7 @@
   "dependencies": {
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "restapi-typescript-decorators": "^3"
+    "restapi-typescript-decorators": "^4"
   },
   "devDependencies": {
     "@types/react": "^16.9.43",
@@ -16,6 +16,7 @@
     "prettier": "^2.0.5"
   },
   "scripts": {
+    "build": "rm -rf build/* && tsc",
     "start": "parcel src/index.html",
     "dev": "parcel src/index.html",
     "format": "./node_modules/.bin/prettier --config ./.prettierrc --write src/**/**/**/**/*.{ts,tsx,js,jsx,scss} *.{json,MD}",
