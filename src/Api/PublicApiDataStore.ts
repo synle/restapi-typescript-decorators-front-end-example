@@ -9,7 +9,7 @@ import {
   ApiResponse,
 } from 'restapi-typescript-decorators';
 
-import { HttpBinGetResponse, HttpBinPostResponse } from './HttpBinTypes';
+import { HttpBinResponse, HttpBinRequest } from './types';
 
 @RestClient({
   baseUrl: 'https://httpbin.org',
@@ -18,16 +18,16 @@ export class PublicApiDataStore {
   @RestApi('/post', {
     method: 'POST',
   })
-  doPostWithBody(@RequestBody _body): ApiResponse<HttpBinPostResponse> {}
+  doPostWithBody(@RequestBody _body: HttpBinRequest): ApiResponse<HttpBinResponse> {}
 
   @RestApi('/get')
-  doGetWithQueryParams(@QueryParams _queryParams): ApiResponse<HttpBinGetResponse> {}
+  doGetWithQueryParams(@QueryParams _queryParams: HttpBinRequest): ApiResponse<HttpBinResponse> {}
 
   @RestApi('/anything/{messageId}')
   doGetWithPathParams(
     @PathParam('messageId') _targetMessageId: string,
-    @QueryParams _queryParams,
-  ): ApiResponse<HttpBinGetResponse> {}
+    @QueryParams _queryParams: HttpBinRequest,
+  ): ApiResponse<HttpBinResponse> {}
 
   @RestApi('/anything', {
     method: 'POST',
@@ -35,12 +35,14 @@ export class PublicApiDataStore {
   doPostWithFormData(
     @FormDataBody('unitPrice') _unitPrice: number,
     @FormDataBody('quantity') _qty: number,
-  ): ApiResponse<HttpBinPostResponse> {}
+  ): ApiResponse<HttpBinResponse> {}
 
   @RestApi('/post', {
     method: 'POST',
   })
-  doPostUploadFile(@FormDataBody('fileToUpload') _file): ApiResponse<HttpBinPostResponse> {}
+  doPostUploadFile(
+    @FormDataBody('fileToUpload') _file: HttpBinRequest,
+  ): ApiResponse<HttpBinResponse> {}
 
   @RestApi('/post', {
     method: 'POST',
@@ -48,5 +50,5 @@ export class PublicApiDataStore {
       Accept: 'multipart/form-data',
     },
   })
-  doPostUploadFileAsStream(@FileUploadBody _file): ApiResponse<HttpBinPostResponse> {}
+  doPostUploadFileAsStream(@FileUploadBody _file: any): ApiResponse<HttpBinResponse> {}
 }

@@ -11,14 +11,14 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
+    "declaration": true,
     "resolveJsonModule": true,
     "moduleResolution": "node",
     "isolatedModules": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "noEmit": true,
     "jsx": "react"
   },
   "exclude": ["node_modules"],
-  "include": ["src/index.ts", "src/**/*.ts"]
+  "include": ["src/index.tsx"]
 }

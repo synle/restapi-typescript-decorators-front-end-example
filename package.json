@@ -16,6 +16,7 @@
     "prettier": "^2.0.5"
   },
   "scripts": {
+    "build": "rm -rf build/* && tsc",
     "start": "parcel src/index.html",
     "dev": "parcel src/index.html",
     "format": "./node_modules/.bin/prettier --config ./.prettierrc --write src/**/**/**/**/*.{ts,tsx,js,jsx,scss} *.{json,MD}",
