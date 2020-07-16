@@ -7,15 +7,11 @@ const myPublicApiDataStoreInstance = new PublicApiDataStore();
 // method name, api method reference, params
 const testApis = [
   [
-    'doPostWithBody',
-    (): ApiResponse => myPublicApiDataStoreInstance.doPostWithBody({ a: 1, b: 2, c: 3 }),
-  ],
-  [
-    'doGetWithQueryParams',
+    'Do Get with QueryParams',
     (): ApiResponse => myPublicApiDataStoreInstance.doGetWithQueryParams({ d: 4, e: 5, f: 6 }),
   ],
   [
-    'doGetWithPathParams',
+    'Do Get with PathParams and RequestBody',
     (): ApiResponse =>
       myPublicApiDataStoreInstance.doGetWithPathParams('some_secure_message_id_987', {
         x: 9,
@@ -24,7 +20,11 @@ const testApis = [
       }),
   ],
   [
-    'doPostWithFormData',
+    'Do Post with RequestBody',
+    (): ApiResponse => myPublicApiDataStoreInstance.doPostWithBody({ a: 1, b: 2, c: 3 }),
+  ],
+  [
+    'Do Post with FormData',
     (): ApiResponse =>
       myPublicApiDataStoreInstance.doPostWithFormData(
         100, // qty
@@ -66,22 +66,22 @@ function ApiTesterResponse({ metadata }) {
           <div>
             <h4>Response MetaData:</h4>
           </div>
-          <textarea className='ApiResponseDisplay__ResponseCode mb2'>
-            {JSON.stringify(otherApiResponse, null, 2)}
-          </textarea>
+          <textarea
+            className='ApiResponseDisplay__ResponseCode mb2'
+            defaultValue={JSON.stringify(otherApiResponse, null, 2)}></textarea>
           <div>
             <h4>Response Content:</h4>
           </div>
-          <textarea className='ApiResponseDisplay__ResponseCode'>
-            {JSON.stringify(resp, null, 2)}
-          </textarea>
+          <textarea
+            className='ApiResponseDisplay__ResponseCode'
+            defaultValue={JSON.stringify(resp, null, 2)}></textarea>
         </div>
       )}
     </div>
   );
 }
 
-function DoUploadFileApiTesterButton(props) {
+function DoUploadFileAsFormDataApiTesterButton(props) {
   const { setCurrentApiMetaData } = props;
   const _onUploadFile = (e) => {
     e.preventDefault(); // stop form from submitting
@@ -89,7 +89,7 @@ function DoUploadFileApiTesterButton(props) {
     const newApiMetaData = { apiName: 'doPostUploadFile', loading: true };
     setCurrentApiMetaData(newApiMetaData);
 
-    const fileToBeUploaded = document.querySelector('#fileToUpload').files[0]; // this example only upload one file
+    const fileToBeUploaded = document.querySelector('#fileToUploadAsFormData').files[0]; // this example only upload one file
 
     // do callback and set the value
     const apiResponse = myPublicApiDataStoreInstance.doPostUploadFile(fileToBeUploaded);
@@ -114,9 +114,50 @@ function DoUploadFileApiTesterButton(props) {
 
   return (
     <form onSubmit={_onUploadFile}>
-      <input type='file' id='fileToUpload' required />
+      <input type='file' id='fileToUploadAsFormData' required />
       <button className='btnApi' type='submit'>
-        doPostUploadFile
+        Upload As FormData
+      </button>
+    </form>
+  );
+}
+
+function DoUploadFileAsStreamApiTesterButton(props) {
+  const { setCurrentApiMetaData } = props;
+  const _onUploadFile = (e) => {
+    e.preventDefault(); // stop form from submitting
+
+    const newApiMetaData = { apiName: 'doPostUploadFile', loading: true };
+    setCurrentApiMetaData(newApiMetaData);
+
+    const fileToBeUploaded = document.querySelector('#fileToUploadAsStream').files[0]; // this example only upload one file
+
+    // do callback and set the value
+    const apiResponse = myPublicApiDataStoreInstance.doPostUploadFileAsStream(fileToBeUploaded);
+    apiResponse.result.then(
+      (resp) => {
+        setCurrentApiMetaData({
+          ...newApiMetaData,
+          apiResponse,
+          resp,
+          loading: false,
+        });
+      },
+      () => {
+        setCurrentApiMetaData({
+          ...newApiMetaData,
+          apiResponse,
+          loading: false,
+        });
+      },
+    );
+  };
+
+  return (
+    <form onSubmit={_onUploadFile}>
+      <input type='file' id='fileToUploadAsStream' required />
+      <button className='btnApi' type='submit'>
+        Upload As Stream
       </button>
     </form>
   );
@@ -164,7 +205,12 @@ export function ApiTesterSection() {
             </button>
           </div>
         ))}
-        <DoUploadFileApiTesterButton setCurrentApiMetaData={setCurrentApiMetaData} />
+        <div className='mb1'>
+          <DoUploadFileAsFormDataApiTesterButton setCurrentApiMetaData={setCurrentApiMetaData} />
+        </div>
+        <div className='mb1'>
+          <DoUploadFileAsStreamApiTesterButton setCurrentApiMetaData={setCurrentApiMetaData} />
+        </div>
       </div>
       <div className='ApiResponseDisplay__Response'>
         <ApiTesterResponse metadata={currentApiMetaData} />

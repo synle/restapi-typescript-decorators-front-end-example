@@ -5,7 +5,7 @@ import {
   PathParam,
   QueryParams,
   FormDataBody,
-  FileToUpload,
+  FileUploadBody,
   ApiResponse,
 } from 'restapi-typescript-decorators';
 
@@ -42,9 +42,11 @@ export class PublicApiDataStore {
   })
   doPostUploadFile(@FormDataBody('fileToUpload') _file): ApiResponse<HttpBinPostResponse> {}
 
-
   @RestApi('/post', {
     method: 'POST',
+    headers: {
+      Accept: 'multipart/form-data',
+    },
   })
-  doPostUploadFileAsStream(@FileToUpload _file): ApiResponse<HttpBinPostResponse> { }
+  doPostUploadFileAsStream(@FileUploadBody _file): ApiResponse<HttpBinPostResponse> {}
 }
