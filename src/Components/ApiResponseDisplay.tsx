@@ -145,7 +145,7 @@ function DoUploadFileAsStreamApiTesterButton(props) {
       const fileToBeUploaded = fileUploadDom.files[0];
 
       // do callback and set the value
-      const apiResponse = myPublicApiDataStoreInstance.doPostUploadFileAsStream(fileToBeUploaded)
+      const apiResponse = myPublicApiDataStoreInstance.doPostUploadFileAsStream(fileToBeUploaded);
       apiResponse &&
         apiResponse.result.then(
           (resp) => {
