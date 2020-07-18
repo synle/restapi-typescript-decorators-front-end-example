@@ -109,6 +109,11 @@ function DoUploadFileAsFormDataApiTesterButton(props) {
               resp,
               loading: false,
             });
+
+            console.assert(
+              resp.data?.length > 0,
+              `${newApiMetaData.apiName} API should upload some data`,
+            );
           },
           () => {
             setCurrentApiMetaData({
@@ -116,6 +121,8 @@ function DoUploadFileAsFormDataApiTesterButton(props) {
               apiResponse,
               loading: false,
             });
+
+            console.assert(false, `${newApiMetaData.apiName} API failed to fetch`);
           },
         );
     }
@@ -155,6 +162,8 @@ function DoUploadFileAsStreamApiTesterButton(props) {
               resp,
               loading: false,
             });
+
+            console.assert(!!resp.url && !!resp.headers, `${newApiMetaData.apiName} API should upload some data`);
           },
           () => {
             setCurrentApiMetaData({
@@ -162,6 +171,8 @@ function DoUploadFileAsStreamApiTesterButton(props) {
               apiResponse,
               loading: false,
             });
+
+            console.assert(false, `${newApiMetaData.apiName} API failed to fetch`);
           },
         );
     }
@@ -202,6 +213,8 @@ export function ApiTesterSection() {
             resp,
             loading: false,
           });
+
+
         },
         () => {
           setCurrentApiMetaData({
@@ -209,6 +222,8 @@ export function ApiTesterSection() {
             apiResponse,
             loading: false,
           });
+
+          console.assert(false, `${newApiMetaData.apiName} API failed to fetch`);
         },
       );
     }
