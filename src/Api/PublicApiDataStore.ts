@@ -46,9 +46,6 @@ export class PublicApiDataStore {
 
   @RestApi('/post', {
     method: 'POST',
-    headers: {
-      Accept: 'multipart/form-data',
-    },
   })
   doPostUploadFileAsStream(@FileUploadBody _file: any): ApiResponse<HttpBinResponse> {}
 }
