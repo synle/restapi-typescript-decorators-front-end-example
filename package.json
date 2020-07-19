@@ -6,7 +6,7 @@
   "dependencies": {
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "restapi-typescript-decorators": "^5"
+    "restapi-typescript-decorators": "^6"
   },
   "devDependencies": {
     "@types/react": "^16.9.43",
