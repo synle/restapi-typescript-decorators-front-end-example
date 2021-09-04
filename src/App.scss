@@ -1,17 +1,16 @@
 @import 'base';
 
-.ApiResponseDisplay{
+.ApiResponseDisplay {
   display: flex;
-  &__Actions{
+  &__Actions {
     flex-grow: 1;
   }
 
-  &__Response{
+  &__Response {
     width: 600px;
   }
-  &__ResponseCode{
+  &__ResponseCode {
     width: 100%;
     height: 500px;
   }
-
 }
