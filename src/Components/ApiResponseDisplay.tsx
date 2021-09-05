@@ -42,7 +42,7 @@ function ApiTesterResponse({ metadata }) {
     return null;
   }
   const { apiName, apiResponse, resp, loading } = metadata;
-  const { result, ...otherApiResponse } = apiResponse || {};
+  const { ...otherApiResponse } = apiResponse || {};
 
   return (
     <div>
@@ -163,7 +163,10 @@ function DoUploadFileAsStreamApiTesterButton(props) {
               loading: false,
             });
 
-            console.assert(!!resp.url && !!resp.headers, `${newApiMetaData.apiName} API should upload some data`);
+            console.assert(
+              !!resp.url && !!resp.headers,
+              `${newApiMetaData.apiName} API should upload some data`,
+            );
           },
           () => {
             setCurrentApiMetaData({
@@ -213,8 +216,6 @@ export function ApiTesterSection() {
             resp,
             loading: false,
           });
-
-
         },
         () => {
           setCurrentApiMetaData({
