@@ -14,7 +14,7 @@ npm start
 ```
 
 ## Demo
-Demo can be viewed at this URL: TBD
+Demo can be viewed at this URL: https://synle.github.io/restapi-typescript-decorators-front-end-example/dist
 
 ## Notes
 - This frontend setup uses parcel bundler.

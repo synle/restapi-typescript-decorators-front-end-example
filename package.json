@@ -22,7 +22,7 @@
   "scripts": {
     "prebuild": "rm -rf ./dist ./build",
     "start": "SASS_PATH='./src/styles' parcel src/index.html --port 3000 --out-dir build",
-    "build": "SASS_PATH='./src/styles' parcel build src/index.html --out-dir dist",
+    "build": "SASS_PATH='./src/styles' parcel build src/index.html --out-dir dist --public-url ./",
     "format": "npx prettier --config ./.prettierrc --write src/**/**/**/**/*.{ts,tsx,js,jsx,scss,yml} *.{json,MD}",
     "lint": "eslint --ext js,jsx,ts,tsx src",
     "test": "echo \"Error: no test specified\""
